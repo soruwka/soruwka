@@ -1,0 +1,5 @@
+- 👋 Hi, I’m @soruwka
+- 👀 I’m interested in pentesting and coding in python
+- 🌱 I’m currently learning C#
+- 😄 Pronouns: He/Him
+- ⚡ Fun fact: Idk
