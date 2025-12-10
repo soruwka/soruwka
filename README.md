@@ -1,5 +1,5 @@
-- 👋 Hi, I’m @soruwka
+- 👋 Hi, I’m @starykapec_
 - 👀 I’m interested in pentesting and coding in python
-- 🌱 I’m currently learning C#
+- 🌱 I’m currently programming powerful DDoS Tool with source code
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: Idk
